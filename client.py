@@ -59,14 +59,29 @@ def send_email(events):
     SENDER = 'jake@gmail.com'
     RECEIVER = 'mailhog@example.com'
 
+    USERNAME = 'user'
+    PASS = 'pass'
+
     for i in range (2):
-        MSG = events[i]  + ' is soon!' + '\r\n'
+        MSG = 'From: ' + SENDER + '\r\nTO: ' + RECEIVER + '\r\nSubject: Upcoming Event\r\n\r\n' +  events[i]  + ' is soon!' + '\r\n.\r\n'
         
         my_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         my_socket.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
         my_socket.connect((HOST,PORT))
 
         my_socket.send(('HELO ' + SENDER + '\r\n').encode())
+        response = my_socket.recv(1024)
+        print(response.decode())
+
+        my_socket.send(('AUTH LOGIN\r\n').encode())
+        response = my_socket.recv(1024)
+        print(response.decode())
+
+        my_socket.send((USERNAME + '\r\n').encode())
+        response = my_socket.recv(1024)
+        print(response.decode())
+
+        my_socket.send((PASS + '\r\n').encode())
         response = my_socket.recv(1024)
         print(response.decode())
 
@@ -86,10 +101,6 @@ def send_email(events):
         response = my_socket.recv(1024)
         print(response.decode())
 
-        my_socket.send(b'.\r\n')
-        response = my_socket.recv(1024)
-        print(response.decode())
-
         my_socket.send(b'QUIT\r\n')
         response = my_socket.recv(1024)
         print(response.decode())
@@ -101,8 +112,18 @@ def send_email(events):
 
 def main():
     nearby_events = find_all_dates()
+    print('\033[92m===========================================')
+    print('Upcoming events: ')
+    print('===========================================\033[0m')
+    print('\r\n')
     print(nearby_events)
+    print('\r\n')
+    print('\033[92m===========================================')
+    print('Email Protocols: ')
+    print('===========================================\033[0m')
+    print('\r\n')
     send_email(nearby_events)
+    print('\033[92m===========================================\033[0m')
 
     return
 
