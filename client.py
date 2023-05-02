@@ -63,7 +63,7 @@ def send_email(events):
     PASS = 'pass'
 
     for i in range (2):
-        MSG = 'From: ' + SENDER + '\r\nTO: ' + RECEIVER + '\r\nSubject: Upcoming Event\r\n\r\n' +  events[i]  + ' is soon!' + '\r\n.\r\n'
+        MSG = 'From: ' + SENDER + '\r\nTO: ' + RECEIVER + '\r\nSubject: Upcoming Event\r\nCustom Header: Jake\r\n\r\n' +  events[i]  + ' is soon!' + '\r\n.\r\n'
         
         my_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         my_socket.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
