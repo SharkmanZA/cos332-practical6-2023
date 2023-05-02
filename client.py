@@ -130,3 +130,8 @@ def main():
 
 if __name__ == '__main__':
     main()
+
+
+# BONUS MARKS:
+# 1. Custom Headers
+# 2. SMTP Auth
